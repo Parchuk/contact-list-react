@@ -1,13 +1,14 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import { v4 as uuidv4 } from 'uuid'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 // Include components
 import ContactList from './Components/ContactList/ContactList'
 import Header from './Components/Header/Header'
 import NotFound from './Components/NotFound/NotFound'
+import ContactDetails from './Components/ContactDetails/ContactDetails'
 
 class App extends Component {
   state = {
@@ -130,6 +131,22 @@ class App extends Component {
               />
             )}
           />
+          <Route
+            path="/contact-details/:id"
+            render={({ match }) => {
+              let isUser = this.state.List.findIndex((elem) => elem.id === match.params.id)
+              if (isUser !== -1) {
+                return (
+                  <ContactDetails
+                    List={this.state.List}
+                    userId={match.params.id}
+                    onToggle={this.toggleStatus}
+                  />
+                )
+              }
+              return <Redirect to="/" />
+            }}
+          />
           <Route component={NotFound} />
         </Switch>
       </Router>
@@ -150,10 +167,7 @@ class App extends Component {
     })
   }
   onDelite = (id) => {
-    const tmpList = [...this.state.List].filter((elem) => elem.id !== id)
-    this.setState({
-      List: tmpList,
-    })
+    this.setState({ List: [...this.state.List].filter((elem) => elem.id !== id) })
   }
 }
 

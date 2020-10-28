@@ -1,0 +1,25 @@
+.container.page404 {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 85vh;
+  background: url('../../img/9025168937294623114.jpg') top left;
+  background-size: cover;
+  filter: sepia(100%) contrast(80%);
+  overflow: hidden;
+}
+.container.page404 .title {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 33%;
+  color: #fff;
+  background-color: #46696c;
+  font-family: monospace;
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 25px;
+  mix-blend-mode: multiply;
+}

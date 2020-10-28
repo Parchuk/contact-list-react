@@ -7,42 +7,42 @@ class Header extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <div class="navbar-header">
+          <nav className="navbar navbar-default">
+            <div className="container-fluid">
+              <div className="navbar-header">
                 <button
                   type="button"
-                  class="navbar-toggle collapsed"
+                  className="navbar-toggle collapsed"
                   data-toggle="collapse"
                   data-target="#bs-example-navbar-collapse-1"
                   aria-expanded="false"
                 >
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
                 </button>
-                <Link class="navbar-brand" to="/">
+                <Link className="navbar-brand" to="/">
                   Brand
                 </Link>
               </div>
 
-              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                  <li class="active">
+              <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul className="nav navbar-nav">
+                  <li className="active">
                     <Link to="/">
-                      Home <span class="sr-only">(current)</span>
+                      Home <span className="sr-only">(current)</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/add-new-contact">Add new contact</Link>
                   </li>
                 </ul>
-                <form class="navbar-form navbar-right">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" />
+                <form className="navbar-form navbar-right">
+                  <div className="form-group">
+                    <input type="text" className="form-control" placeholder="Search" />
                   </div>
-                  <button type="submit" class="btn btn-default">
+                  <button type="submit" className="btn btn-default">
                     Submit
                   </button>
                 </form>
