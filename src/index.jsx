@@ -9,6 +9,8 @@ import ContactList from './Components/ContactList/ContactList'
 import Header from './Components/Header/Header'
 import NotFound from './Components/NotFound/NotFound'
 import ContactDetails from './Components/ContactDetails/ContactDetails'
+import AddContact from './Components/AddContact/AddContact'
+import EditContact from './Components/EditContact/EditContact'
 
 class App extends Component {
   state = {
@@ -114,7 +116,9 @@ class App extends Component {
         gender: 'men',
       },
     ],
+    currentContact: '',
   }
+
   render() {
     return (
       <Router>
@@ -128,6 +132,7 @@ class App extends Component {
                 List={this.state.List}
                 onToggle={this.toggleStatus}
                 onDelite={this.onDelite}
+                onEdit={this.onEdit}
               />
             )}
           />
@@ -147,10 +152,44 @@ class App extends Component {
               return <Redirect to="/" />
             }}
           />
+          <Route
+            path="/edit-contact"
+            render={() => (
+              <EditContact
+                onEditCurrentContact={this.onEditCurrentContact}
+                currentContact={this.state.currentContact}
+              />
+            )}
+          />
+          <Route
+            path="/add-new-contact"
+            exact
+            render={() => <AddContact onCreate={this.onCreate} />}
+          />
           <Route component={NotFound} />
         </Switch>
       </Router>
     )
+  }
+
+  onCreate = (name, role, avatar, status, email, gender) => {
+    let newContact = {
+      id: uuidv4(),
+      name: name,
+      role: role,
+      avatar: avatar,
+      created: Date.now(),
+      status: status,
+      email: email,
+      gender: gender,
+    }
+
+    const newList = [...this.state.List, newContact]
+    this.setState(() => {
+      return {
+        List: newList,
+      }
+    })
   }
   toggleStatus = (id) => {
     this.setState({
@@ -168,6 +207,31 @@ class App extends Component {
   }
   onDelite = (id) => {
     this.setState({ List: [...this.state.List].filter((elem) => elem.id !== id) })
+  }
+  onEdit = (id) => {
+    const index = this.state.List.findIndex((elm) => elm.id === id)
+    const currentContact = this.state.List[index]
+
+    this.setState({ currentContact })
+  }
+  onEditCurrentContact = (name, role, avatar, status, email, gender, created, id) => {
+    let newContact = {
+      id: id,
+      name: name,
+      role: role,
+      avatar: avatar,
+      created: created,
+      status: status,
+      email: email,
+      gender: gender,
+    }
+    const index = this.state.List.findIndex((elm) => elm.id === id)
+    const partOne = this.state.List.slice(0, index)
+    const partTwo = this.state.List.slice(index + 1)
+    const newList = [...partOne, newContact, ...partTwo]
+    this.setState(() => {
+      return { List: newList }
+    })
   }
 }
 

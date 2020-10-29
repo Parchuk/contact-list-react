@@ -16,6 +16,7 @@ const ContactList = (props) => {
         gender={item.gender}
         onClick={props.onToggle}
         onDelite={() => props.onDelite(item.id)}
+        onEdit={() => props.onEdit(item.id)}
       />
     );
   });

@@ -46,7 +46,7 @@ class ContactItem extends React.Component {
               <i className="fa fa-search-plus fa-stack-1x fa-inverse"></i>
             </span>
           </Link>
-          <Link to="#" className="table-link">
+          <Link to={`/edit-contact`} className="table-link" onClick={this.props.onEdit}>
             <span className="fa-stack">
               <i className="fa fa-square fa-stack-2x"></i>
               <i className="fa fa-pencil fa-stack-1x fa-inverse"></i>
