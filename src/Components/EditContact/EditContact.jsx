@@ -49,8 +49,6 @@ class EditContact extends React.Component {
   onSendData = (event) => {
     event.preventDefault()
     const { name, role, avatar, status, email, gender, created, id } = this.state
-
-    console.log(this.props)
     this.props.onEditCurrentContact(name, role, avatar, status, email, gender, created, id)
     this.setState({
       isRedirect: true,

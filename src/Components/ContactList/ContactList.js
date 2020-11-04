@@ -17,9 +17,11 @@ const ContactList = (props) => {
         onClick={props.onToggle}
         onDelite={() => props.onDelite(item.id)}
         onEdit={() => props.onEdit(item.id)}
+        inputValue={props.inputValue}
       />
     );
   });
+
   return (
     <div className="container">
       <div className="row">
@@ -45,7 +47,7 @@ const ContactList = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {item.length !== 0 ? item : <h2>Contact list is empty.</h2>}
+                  {item.length !== 0 ? item : <tr><td> <h2>Contact list is empty.</h2></td></tr>}
                 </tbody>
               </table>
             </div>

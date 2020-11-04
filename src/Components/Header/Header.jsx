@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import './Header.css'
 
 class Header extends React.Component {
+  searchContact = (event) => {
+    this.props.searchContactValue(event.target.value)
+  }
   render() {
     return (
       <div className="container">
@@ -40,11 +43,18 @@ class Header extends React.Component {
                 </ul>
                 <form className="navbar-form navbar-right">
                   <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Search" />
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search"
+                      onChange={this.searchContact}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault()
+                        }
+                      }}
+                    />
                   </div>
-                  <button type="submit" className="btn btn-default">
-                    Submit
-                  </button>
                 </form>
               </div>
             </div>
