@@ -1,62 +1,38 @@
+import ContactListService from '../../Services/ContactListServices'
+import { connect } from 'react-redux'
+
 import React from 'react'
 import { Redirect } from 'react-router-dom'
+// action
+import { getContactList, setCurrentContact } from '../../Actions/ContactListActions'
+const contactListService = new ContactListService()
 
 class EditContact extends React.Component {
   state = {
-    id: this.props.currentContact.id,
-    name: this.props.currentContact.name,
-    role: this.props.currentContact.role,
-    avatar: this.props.currentContact.avatar,
-    created: this.props.currentContact.created,
-    status: this.props.currentContact.status,
-    email: this.props.currentContact.email,
-    gender: this.props.currentContact.gender,
+    currentContact: this.props.currentContact[0],
     isRedirect: false,
-  }
-
-  getName = (event) => {
-    this.setState({
-      name: event.target.value,
-    })
-  }
-  getRole = (event) => {
-    this.setState({
-      role: event.target.value,
-    })
-  }
-  getAvatar = (event) => {
-    this.setState({
-      avatar: event.target.value,
-    })
-  }
-  getStatus = (event) => {
-    this.setState({
-      status: event.target.value,
-    })
-  }
-  getEmail = (event) => {
-    this.setState({
-      email: event.target.value,
-    })
-  }
-
-  getGender = (event) => {
-    this.setState({
-      gender: event.target.value,
-    })
   }
 
   onSendData = (event) => {
     event.preventDefault()
-    const { name, role, avatar, status, email, gender, created, id } = this.state
-    this.props.onEditCurrentContact(name, role, avatar, status, email, gender, created, id)
+    const { name, role, avatar, status, email, gender, created, id } = this.state.currentContact
+    contactListService.onEditCurrentContact(name, role, avatar, status, email, gender, created, id)
     this.setState({
       isRedirect: true,
     })
   }
+  getInputValue = (event) => {
+    this.setState({
+      currentContact: {
+        ...this.props.currentContact[0],
+        [event.target.name]: event.target.value,
+      },
+    })
+  }
 
   render() {
-    const { avatar, role, name, status, email, gender } = this.state
+    const { avatar, role, name, status, email, gender } = this.state.currentContact
+
     if (this.state.isRedirect) {
       return <Redirect to="/" />
     }
@@ -72,7 +48,8 @@ class EditContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Name"
-                    onChange={this.getName}
+                    name="name"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -83,7 +60,8 @@ class EditContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Role"
-                    onChange={this.getRole}
+                    name="role"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -96,7 +74,8 @@ class EditContact extends React.Component {
                     max="99"
                     class="form-control"
                     placeholder="Avatar"
-                    onChange={this.getAvatar}
+                    name="avatar"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -107,7 +86,8 @@ class EditContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Status"
-                    onChange={this.getStatus}
+                    name="status"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -119,7 +99,8 @@ class EditContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Email"
-                    onChange={this.getEmail}
+                    name="email"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -130,7 +111,8 @@ class EditContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Gender"
-                    onChange={this.getGender}
+                    name="gender"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -148,7 +130,7 @@ class EditContact extends React.Component {
             <img
               src={`https://api.randomuser.me/portraits/${gender}/${avatar}.jpg`}
               style={{ width: '100%' }}
-              alt=""
+              alt={gender}
             />
           </div>
         </div>
@@ -157,4 +139,17 @@ class EditContact extends React.Component {
   }
 }
 
-export default EditContact
+const mapStateToProps = ({ ContactListReducer }) => {
+  console.log('mapStateToProps ', ContactListReducer.currentContact)
+  const { currentContact } = ContactListReducer
+  return {
+    currentContact,
+  }
+}
+
+const mapDispatchToProps = {
+  getContactList,
+  setCurrentContact,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditContact)

@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
+import { connect } from 'react-redux'
+import { setInputValue } from '../../Actions/ContactListActions'
 
 class Header extends React.Component {
   searchContact = (event) => {
-    this.props.searchContactValue(event.target.value)
+    this.props.setInputValue(event.target.value)
   }
   render() {
     return (
@@ -47,6 +49,7 @@ class Header extends React.Component {
                       type="text"
                       className="form-control"
                       placeholder="Search"
+                      value={this.props.currentSearchValue}
                       onChange={this.searchContact}
                       onKeyDown={(event) => {
                         if (event.key === 'Enter') {
@@ -65,4 +68,15 @@ class Header extends React.Component {
   }
 }
 
-export default Header
+const mapStateToProps = ({ SearchReducer }) => {
+  const { currentSearchValue } = SearchReducer
+  return {
+    currentSearchValue,
+  }
+}
+
+const mapDispatchToProps = {
+  setInputValue,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

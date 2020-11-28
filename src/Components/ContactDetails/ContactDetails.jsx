@@ -1,9 +1,13 @@
 import React from 'react'
 import './ContactDetails.css'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { connect } from 'react-redux'
+import ContactListService from '../../Services/ContactListServices'
+const contactListService = new ContactListService()
 
-const ContactDetails = (props) => {
-  let currentIem = props.List.filter((user) => props.userId === user.id)
+const ContactDetails = ({ List }) => {
+  let { id: userId } = useParams()
+  let currentIem = List.filter((user) => userId === user.id)
   const { avatar, role, name, status, email, created, gender, id } = currentIem[0]
   const URL = `https://api.randomuser.me/portraits/${gender}/${avatar}.jpg`
 
@@ -16,14 +20,14 @@ const ContactDetails = (props) => {
   return (
     <div className="container mt-5 mb-5 d-flex justify-content-center">
       <div className="card rounded">
-        <span className={statusStyle} onClick={() => props.onToggle(id)}>
+        <span className={statusStyle} onClick={() => contactListService.toggleStatus(id)}>
           {status}
         </span>
         <div className=" d-block justify-content-center">
           <div className="area1 p-3 py-5"> </div>
           <div className="area2 p- text-center px-3">
             <div className="image mr-3">
-              <img src={URL} className="rounded-circle" width="100" />
+              <img src={URL} className="rounded-circle" width="100" alt={gender} />
               <h4 className=" name mt-3 ">{name}</h4>
               <span className="user-subhead">{role}</span>
               <p className="information mt-3 text-justify">
@@ -66,4 +70,11 @@ const ContactDetails = (props) => {
   )
 }
 
-export default ContactDetails
+const mapStateToProps = ({ ContactListReducer }) => {
+  const { List } = ContactListReducer
+  return {
+    List,
+  }
+}
+
+export default connect(mapStateToProps)(ContactDetails)

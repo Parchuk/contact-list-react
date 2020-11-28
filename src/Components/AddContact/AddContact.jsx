@@ -1,55 +1,26 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
+
 import './AddContact.css'
+
+import ContactListService from '../../Services/ContactListServices'
+const contactListService = new ContactListService()
 
 class AddContact extends React.Component {
   state = {
-    name: '',
-    role: '',
-    avatar: '',
-    created: '',
-    status: '',
-    email: '',
-    gender: '',
     isRedirect: false,
   }
 
-  getName = (event) => {
+  getInputValue = (event) => {
     this.setState({
-      name: event.target.value,
-    })
-  }
-  getRole = (event) => {
-    this.setState({
-      role: event.target.value,
-    })
-  }
-  getAvatar = (event) => {
-    this.setState({
-      avatar: event.target.value,
-    })
-  }
-  getStatus = (event) => {
-    this.setState({
-      status: event.target.value,
-    })
-  }
-  getEmail = (event) => {
-    this.setState({
-      email: event.target.value,
-    })
-  }
-
-  getGender = (event) => {
-    this.setState({
-      gender: event.target.value,
+      [event.target.name]: event.target.value,
     })
   }
 
   onSendData = (event) => {
     event.preventDefault()
     const { name, role, avatar, status, email, gender } = this.state
-    this.props.onCreate(name, role, avatar, status, email, gender)
+    contactListService.onCreate(name, role, avatar, status, email, gender)
     this.setState({
       isRedirect: true,
     })
@@ -70,7 +41,8 @@ class AddContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Name"
-                    onChange={this.getName}
+                    name="name"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -80,7 +52,8 @@ class AddContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Role"
-                    onChange={this.getRole}
+                    name="role"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -92,7 +65,8 @@ class AddContact extends React.Component {
                     max="99"
                     class="form-control"
                     placeholder="Avatar"
-                    onChange={this.getAvatar}
+                    name="avatar"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -102,7 +76,8 @@ class AddContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Status"
-                    onChange={this.getStatus}
+                    name="status"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -113,7 +88,8 @@ class AddContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Email"
-                    onChange={this.getEmail}
+                    name="email"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
@@ -123,7 +99,8 @@ class AddContact extends React.Component {
                     type="text"
                     class="form-control"
                     placeholder="Gender"
-                    onChange={this.getGender}
+                    name="gender"
+                    onChange={this.getInputValue}
                   />
                 </div>
               </div>
